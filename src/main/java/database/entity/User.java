@@ -1,7 +1,11 @@
 package database.entity;
 
+import crypto.CryptoUtils;
+import crypto.HashSaltUtils;
+
 import javax.persistence.*;
 import java.io.Serializable;
+import java.security.KeyPair;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Objects;
@@ -26,19 +30,45 @@ public class User implements Serializable {
 
     @Column(name = "CREATE_TIME", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
-    private Date create_time;
+    private Date createTime;
+
+    @OneToOne(orphanRemoval = true, cascade = CascadeType.PERSIST, optional = false)
+    @JoinColumn(name = "PRVT_KY")
+    private PrivateKey privateKey;
+
+    @Column(name = "PUBLIC_KEY", nullable = false, columnDefinition = "BLOB")
+    private byte[] publicKey;
 
     public User() {
     }
 
-    public User(String username, byte[] passwordHash, byte[] salt) {
+    public User(String username, String password) throws Exception {
         this.username = username;
-        this.passwordHash = passwordHash;
-        this.salt = salt;
+        this.salt = HashSaltUtils.getNextSalt();
+        this.passwordHash = HashSaltUtils.getPasswordSaltHash(password, this.salt);
+        KeyPair keyPair = CryptoUtils.generateKeyPair();
+        this.publicKey = keyPair.getPublic().getEncoded();
+        this.privateKey = new PrivateKey(keyPair.getPrivate().getEncoded());
     }
 
-    public Date getCreate_time() {
-        return create_time;
+    public PrivateKey getPrivateKey() {
+        return privateKey;
+    }
+
+    public void setPrivateKey(PrivateKey privateKey) {
+        this.privateKey = privateKey;
+    }
+
+    public byte[] getPublicKey() {
+        return publicKey;
+    }
+
+    public void setPublicKey(byte[] publicKey) {
+        this.publicKey = publicKey;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
     }
 
     public Long getId() {
@@ -74,8 +104,8 @@ public class User implements Serializable {
     }
 
     @PrePersist
-    public void setCreate_time() {
-        this.create_time = new Date();
+    public void setCreateTime() {
+        this.createTime = new Date();
     }
 
     @Override
@@ -105,7 +135,7 @@ public class User implements Serializable {
                 ", username='" + username + '\'' +
                 ", password_hash=" + Arrays.toString(passwordHash) +
                 ", salt=" + Arrays.toString(salt) +
-                ", create_time=" + create_time +
+                ", create_time=" + createTime +
                 '}';
     }
 }

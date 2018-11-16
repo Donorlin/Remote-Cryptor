@@ -1,10 +1,14 @@
 package crypto;
 
+import database.entity.User;
+import database.user.UserService;
+
 import javax.crypto.*;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.rmi.server.ExportException;
 import java.security.*;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
@@ -17,6 +21,7 @@ public class CryptoUtils {
     private static String SYMMETRIC_TRANSFORMATION = "AES/CBC/PKCS5Padding";
 
     private static String ASYMMETRIC_ALGORITHM = "RSA";
+    private static Integer ASYMMETRIC_KEY_LENGTH_BITS = 4096;
     private static String ASYMMETRIC_TRANSFORMATION = "RSA/ECB/OAEPWithSHA-256AndMGF1Padding";
 
     private static Key getRandomSymetricKey() throws Exception {
@@ -53,6 +58,30 @@ public class CryptoUtils {
         return kf.generatePrivate(spec);
     }
 
+    public static KeyPair generateKeyPair() throws Exception {
+        KeyPairGenerator kpg = KeyPairGenerator.getInstance(ASYMMETRIC_ALGORITHM);
+        kpg.initialize(ASYMMETRIC_KEY_LENGTH_BITS);
+        KeyPair kp = kpg.generateKeyPair();
+        return kp;
+    }
+
+    private static PublicKey getPublicKey(String username) throws Exception {
+        UserService userService = new UserService();
+        User user = userService.getUserByUsername(username);
+        byte[] publicKeyBytes = user.getPublicKey();
+        X509EncodedKeySpec spec = new X509EncodedKeySpec(publicKeyBytes);
+        KeyFactory kf = KeyFactory.getInstance(ASYMMETRIC_ALGORITHM);
+        return kf.generatePublic(spec);
+    }
+
+    private static PrivateKey getPrivateKey(String username) throws Exception {
+        UserService userService = new UserService();
+        User user = userService.getUserByUsername(username);
+        byte[] privateKeyBytes = user.getPrivateKey().getPrivateKey();
+        PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(privateKeyBytes);
+        KeyFactory kf = KeyFactory.getInstance(ASYMMETRIC_ALGORITHM);
+        return kf.generatePrivate(spec);
+    }
 
     public static void encrypt(File inputFile, File outputFile, File publicKeyFile) throws Exception {
         long start = System.nanoTime();

@@ -4,6 +4,7 @@
     <persistence-unit name="Cryptor-pu">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <class>database.entity.User</class>
+        <class>database.entity.PrivateKey</class>
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect"/>
             <property name="hibernate.connection.url" value="jdbc:mysql://147.175.121.187:3306/cryptor"/>

@@ -53,9 +53,7 @@ public class UserService {
             return false;
         }
         try {
-            byte[] salt = HashSaltUtils.getNextSalt();
-            byte[] pwHash = HashSaltUtils.getPasswordSaltHash(password, salt);
-            User newUser = new User(username, pwHash, salt);
+            User newUser = new User(username, password);
             entityManager.getTransaction().begin();
             entityManager.persist(newUser);
             entityManager.getTransaction().commit();

@@ -1,10 +1,7 @@
 package crypto;
 
-import jdk.nashorn.internal.runtime.arrays.IteratorAction;
-
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
-import java.nio.charset.Charset;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
