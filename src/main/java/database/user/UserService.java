@@ -18,13 +18,13 @@ public class UserService {
 
     private EntityManagerFactory emf = Persistence.createEntityManagerFactory("Cryptor-pu");
 
-    public List<User> getUsers() {
+    public List<String> getUsernameList() {
         EntityManager entityManager = emf.createEntityManager();
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-        CriteriaQuery<User> q = cb.createQuery(User.class);
-        Root<User> r = q.from(User.class);
-        q = q.select(r);
-        List<User> result = entityManager.createQuery(q).getResultList();
+        CriteriaQuery<String> q = cb.createQuery(String.class);
+        Root<User> user = q.from(User.class);
+        q.select(user.get("username"));
+        List<String> result = entityManager.createQuery(q).getResultList();
         entityManager.close();
         return result;
     }

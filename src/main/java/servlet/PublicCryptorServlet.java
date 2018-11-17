@@ -16,17 +16,13 @@ import java.io.IOException;
 import java.util.List;
 
 @WebServlet("/cryptor")
-public class FileUploadServlet extends HttpServlet {
+public class PublicCryptorServlet extends HttpServlet {
     private static long serialVersionUID = 1L;
     // private final String UPLOAD_DIRECTORY = "D:/apache-tomcat-9.0.12/uploads";
     private String UPLOAD_DIRECTORY = "/usr/local/apache-tomcat-9.0.12/uploads";
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (request.getSession().getAttribute("user") == null) {
-            request.setAttribute("errorMessage", "Please login first to use REMOTE CRYPTOR 3000");
-            request.getRequestDispatcher("/WEB-INF/jsps/login.jsp").forward(request, response);
-        }
         request.getRequestDispatcher("/WEB-INF/jsps/cryptor.jsp").forward(request, response);
     }
 

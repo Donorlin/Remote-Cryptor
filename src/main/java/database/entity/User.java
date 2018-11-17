@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.security.KeyPair;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -38,6 +39,13 @@ public class User implements Serializable {
 
     @Column(name = "PUBLIC_KEY", nullable = false, columnDefinition = "BLOB")
     private byte[] publicKey;
+
+    @OneToMany(mappedBy = "originator")
+    private List<ShareLog> sharedFiles;
+
+    @OneToMany(mappedBy = "reciever")
+    private List<ShareLog> recievedFiles;
+
 
     public User() {
     }
@@ -101,6 +109,22 @@ public class User implements Serializable {
 
     public void setSalt(byte[] salt) {
         this.salt = salt;
+    }
+
+    public List<ShareLog> getSharedFiles() {
+        return sharedFiles;
+    }
+
+    public void setSharedFiles(List<ShareLog> sharedFiles) {
+        this.sharedFiles = sharedFiles;
+    }
+
+    public List<ShareLog> getRecievedFiles() {
+        return recievedFiles;
+    }
+
+    public void setRecievedFiles(List<ShareLog> recievedFiles) {
+        this.recievedFiles = recievedFiles;
     }
 
     @PrePersist

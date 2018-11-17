@@ -84,6 +84,16 @@ public class CryptoUtils {
     }
 
     public static void encrypt(File inputFile, File outputFile, File publicKeyFile) throws Exception {
+        PublicKey publicKey = getPublicKey(publicKeyFile);
+        encrypt(inputFile, outputFile, publicKey);
+    }
+
+    public static void encrypt(File inputFile, File outputFile, String recieverUsername) throws Exception {
+        PublicKey publicKey = getPublicKey(recieverUsername);
+        encrypt(inputFile, outputFile, publicKey);
+    }
+
+    public static void encrypt(File inputFile, File outputFile, PublicKey publicKey) throws Exception {
         long start = System.nanoTime();
         // System.out.println("ENCRYPTION");
         try {
@@ -94,7 +104,6 @@ public class CryptoUtils {
             symmetricCipher.init(Cipher.ENCRYPT_MODE, secretKey, ivSpec);
 
             // init asymmetric cipher, key
-            PublicKey publicKey = getPublicKey(publicKeyFile);
             Cipher asymmetricCipher = Cipher.getInstance(ASYMMETRIC_TRANSFORMATION);
             asymmetricCipher.init(Cipher.PUBLIC_KEY, publicKey);
 
@@ -153,11 +162,20 @@ public class CryptoUtils {
     }
 
     public static void decrypt(File inputFile, File outputFile, File privateKeyFile) throws Exception {
+        PrivateKey privateKey = getPrivateKey(privateKeyFile);
+        decrypt(inputFile, outputFile, privateKey);
+    }
+
+    public static void decrypt(File inputFile, File outputFile, String recieverUsername) throws Exception {
+        PrivateKey privateKey = getPrivateKey(recieverUsername);
+        decrypt(inputFile, outputFile, privateKey);
+    }
+
+    public static void decrypt(File inputFile, File outputFile, PrivateKey privateKey) throws Exception {
         long start = System.nanoTime();
         System.out.println("DECRYPTION");
         try {
             // init asymmetric cipher, key
-            PrivateKey privateKey = getPrivateKey(privateKeyFile);
             Cipher asymmetricCipher = Cipher.getInstance(ASYMMETRIC_TRANSFORMATION);
             asymmetricCipher.init(Cipher.PRIVATE_KEY, privateKey);
 
