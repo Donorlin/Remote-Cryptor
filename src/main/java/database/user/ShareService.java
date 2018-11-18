@@ -86,7 +86,7 @@ public class ShareService {
     public Map<Long, String> getSharedFilesListByUsername(String username) {
         EntityManager entityManager = emf.createEntityManager();
         Map<Long, String> result = new HashMap<>();
-        TypedQuery<ShareLog> q = entityManager.createQuery("select s from ShareLog s where s.reciever.username = :username", ShareLog.class);
+        TypedQuery<ShareLog> q = entityManager.createQuery("select s from ShareLog s where s.reciever.username = :username and s.downloadDateTime = null ", ShareLog.class);
         q.setParameter("username", username);
         List<ShareLog> qResultList = q.getResultList();
 

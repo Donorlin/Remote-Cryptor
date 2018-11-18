@@ -3,11 +3,16 @@ package servlet.common;
 import com.google.gson.Gson;
 import servlet.common.dto.ErrorOutputDTO;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Arrays;
+import java.util.Optional;
 
 public class ServletUtils {
 
@@ -48,5 +53,22 @@ public class ServletUtils {
 
     public static void sendNotFoundError(String errorMessage, HttpServletResponse servletResponse) throws IOException {
         sendError(HttpServletResponse.SC_NOT_FOUND, "NOT_FOUND", errorMessage, servletResponse);
+    }
+
+    public static Optional<String> getJWTCookieValue(Cookie[] cookies) {
+        return Arrays.stream(cookies).filter(c -> ("token").equals(c.getName())).map(Cookie::getValue).findFirst();
+    }
+
+    public static boolean isAuthenticated(HttpServletRequest request) {
+        if (ServletUtils.getJWTCookieValue(request.getCookies()).isPresent()) {
+            String token = ServletUtils.getJWTCookieValue(request.getCookies()).get();
+            String username = (String) request.getSession().getAttribute("username");
+            if (JWTUtils.verifyJWT(username, token)) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        return false;
     }
 }
