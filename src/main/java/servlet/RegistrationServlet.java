@@ -46,7 +46,7 @@ public class RegistrationServlet extends HttpServlet {
         }
 
         if (PwdUtils.isPwdInDictionary(password)) {
-            req.setAttribute("errorMessage", "Given password is in dictionary, choose different password");
+            req.setAttribute("errorMessage", "Given password is in our pwd dictionary, choose different password");
             req.getRequestDispatcher("/WEB-INF/jsps/register.jsp").forward(req, resp);
             return;
         }

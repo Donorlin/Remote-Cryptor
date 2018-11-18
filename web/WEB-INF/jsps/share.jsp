@@ -36,14 +36,6 @@
         </br></br>
         </br><input type="submit" value="Share"/>
     </form>
-    </br>
-    </br>
-    </br>
-    </br>
-    <h3>If you do not want to upload your private key, simply download our Local Decryptor 3000 and decipher your file locally.</h3>
-    <form action="decryptor" method="get">
-        <input type="submit" value="Download"/>
-    </form>
 </div>
 </body>
 </html>

@@ -10,6 +10,7 @@ import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
@@ -82,5 +83,10 @@ public class UserService {
             System.out.println(ex);
         }
         return false;
+    }
+
+    public byte[] getPrivateKeyBytesByUsername(String username) {
+        User user = getUserByUsername(username);
+        return user.getPrivateKey().getPrivateKey();
     }
 }

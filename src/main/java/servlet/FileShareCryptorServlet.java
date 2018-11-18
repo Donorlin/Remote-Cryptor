@@ -19,10 +19,9 @@ import java.util.List;
 @WebServlet("/share")
 public class FileShareCryptorServlet extends HttpServlet {
 
-    //    private String SHARE_DIRECTORY = "D:/apache-tomcat-9.0.12/uploads/share";
-    private String SHARE_DIRECTORY = "/usr/local/apache-tomcat-9.0.12/uploads/share";
+    private String SHARE_DIRECTORY = "D:/apache-tomcat-9.0.12/uploads/share";
+    // private String SHARE_DIRECTORY = "/usr/local/apache-tomcat-9.0.12/uploads/share";
 
-    //    private String UPLOAD_DIRECTORY = "/usr/local/apache-tomcat-9.0.12/uploads";
     private List<String> userList;
 
     @Override

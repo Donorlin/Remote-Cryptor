@@ -36,6 +36,11 @@
     <form action="decryptor" method="get">
         <input type="submit" value="Download"/>
     </form>
+    </br>
+    </br>
+    </br>
+    </br>
+    <p>This page can be accessed without being logged in thus has no menu support.</p>
 </div>
 </body>
 </html>

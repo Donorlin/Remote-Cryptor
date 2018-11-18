@@ -1,16 +1,14 @@
 package servlet.common;
 
 import com.google.gson.Gson;
+import jdk.internal.util.xml.impl.Input;
 import servlet.common.dto.ErrorOutputDTO;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import java.util.Arrays;
 import java.util.Optional;
 
@@ -34,6 +32,23 @@ public class ServletUtils {
 
         OutputStream out = servletResponse.getOutputStream();
         FileInputStream in = new FileInputStream(responseFile);
+        byte[] buffer = new byte[4096];
+        int length;
+        while ((length = in.read(buffer)) > 0) {
+            out.write(buffer, 0, length);
+        }
+
+        in.close();
+        out.flush();
+    }
+
+    public static void sendResponseBytes(HttpServletResponse servletResponse, byte[] responseBytes) throws IOException {
+        servletResponse.setContentType(FILE_CONTENT_TYPE);
+        servletResponse.setHeader("Content-Disposition", String.format("attachment; filename=\"%s\"", "private_key.der"));
+        servletResponse.setStatus(HttpServletResponse.SC_OK);
+
+        OutputStream out = servletResponse.getOutputStream();
+        InputStream in = new ByteArrayInputStream(responseBytes);
         byte[] buffer = new byte[4096];
         int length;
         while ((length = in.read(buffer)) > 0) {
