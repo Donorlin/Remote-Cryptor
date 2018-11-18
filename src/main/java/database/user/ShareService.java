@@ -1,16 +1,14 @@
 package database.user;
 
 import crypto.CryptoUtils;
+import database.EntityManagerFactorySingleton;
 import database.entity.ShareLog;
 import database.entity.User;
-import org.apache.commons.io.FileUtils;
 
-import javax.persistence.*;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.TypedQuery;
 import java.io.File;
-import java.io.InputStream;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -18,11 +16,12 @@ import java.util.Map;
 
 public class ShareService {
 
-    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("Cryptor-pu");
+    private EntityManagerFactory emf;
 
     private String shareDirectory;
 
     public ShareService(String shareDirectory) {
+        emf = EntityManagerFactorySingleton.getEMF();
         this.shareDirectory = shareDirectory;
     }
 
@@ -97,7 +96,6 @@ public class ShareService {
         entityManager.close();
         return result;
     }
-
 
 
 }

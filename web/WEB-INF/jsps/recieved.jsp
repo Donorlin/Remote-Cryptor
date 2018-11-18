@@ -3,7 +3,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<%@include file="header.jsp"%>
+<%@include file="header.jsp" %>
 <body>
 <jsp:include page="menu.jsp"/>
 <div>
@@ -26,7 +26,8 @@
                 for (Long key : list.keySet()) {
             %>
             <tr>
-                <td><input type="radio" name="fileId" value=<%=key%>/></td>
+                <td><input type="radio" name="fileId" value=<%=key%>
+                /></td>
                 <td><%=list.get(key)%>
                 </td>
             </tr>

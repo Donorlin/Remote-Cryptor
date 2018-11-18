@@ -18,7 +18,7 @@
         <p>Password: </p>
         <input type="password" name="password" required="required"/> </br>
         </br><input type="submit" value="Log in"/>
-        <p>Not registered, yet? Click <a href="/">here</a> to register.</p>
+        <p>Not registered, yet? Click <a href="register">here</a> to register.</p>
     </form>
 </div>
 </body>

@@ -17,8 +17,8 @@ import java.util.Map;
 public class SharedFilesServlet extends HttpServlet {
 
     private Map<Long, String> sharedFilesList;
-    private String SHARE_DIRECTORY = "D:/apache-tomcat-9.0.12/uploads/share";
-    // private String SHARE_DIRECTORY = "/usr/local/apache-tomcat-9.0.12/uploads/share";
+    // private String SHARE_DIRECTORY = "D:/apache-tomcat-9.0.12/uploads/share";
+    private String SHARE_DIRECTORY = "/usr/local/apache-tomcat-9.0.12/uploads/share";
 
 
     @Override

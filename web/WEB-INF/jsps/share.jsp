@@ -20,6 +20,7 @@
         <input type="file" name="inputFile" required="required"/>
 
         <%
+            if (request.getAttribute("userList") != null) {
             List<String> list = (List<String>)request.getAttribute("userList");
         %>
         <h3>Choose a user to share file with</h3>
@@ -29,6 +30,13 @@
                 for (int i = 0; i < list.size(); i++) {
             %>
             <option value=<%=list.get(i)%>><%=list.get(i)%></option>
+            <%
+                }
+            } else {
+            %>
+            <div style="color: red">
+                No users to share with. Or something went wrong with fetching the list of users. Please refresh with clicking on menu option.
+            </div>
             <%
                 }
             %>

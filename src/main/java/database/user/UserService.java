@@ -1,6 +1,7 @@
 package database.user;
 
 import crypto.HashSaltUtils;
+import database.EntityManagerFactorySingleton;
 import database.entity.User;
 
 import javax.persistence.EntityManager;
@@ -17,7 +18,11 @@ import java.util.List;
 
 public class UserService {
 
-    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("Cryptor-pu");
+    private EntityManagerFactory emf;
+
+    public UserService() {
+        emf = EntityManagerFactorySingleton.getEMF();
+    }
 
     public List<String> getUsernameList() {
         EntityManager entityManager = emf.createEntityManager();

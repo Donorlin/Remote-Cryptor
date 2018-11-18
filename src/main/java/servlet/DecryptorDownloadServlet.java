@@ -12,8 +12,8 @@ import java.io.File;
 @WebServlet("/decryptor")
 public class DecryptorDownloadServlet extends HttpServlet {
 
-    private final String JAR_DIRECTORY = "D:/apache-tomcat-9.0.12/uploads/decryptor";
-    // private String JAR_DIRECTORY = "/usr/local/apache-tomcat-9.0.12/uploads/decryptor";
+    // private final String JAR_DIRECTORY = "D:/apache-tomcat-9.0.12/uploads/decryptor";
+    private String JAR_DIRECTORY = "/usr/local/apache-tomcat-9.0.12/uploads/decryptor";
     private String JAR_FILENAME = "local_decryptor_3000.jar";
 
     @Override
