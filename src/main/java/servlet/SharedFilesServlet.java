@@ -28,7 +28,7 @@ public class SharedFilesServlet extends HttpServlet {
                 && request.getCookies() != null
                 && request.getCookies().length > 0
         ) {
-            if(ServletUtils.isAuthenticated(request)) {
+            if (ServletUtils.isAuthenticated(request)) {
                 ShareService shareService = new ShareService(SHARE_DIRECTORY);
                 String currentUser = (String) request.getSession().getAttribute("username");
                 sharedFilesList = shareService.getSharedFilesListByUsername(currentUser);
@@ -48,18 +48,23 @@ public class SharedFilesServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String fileIdParameter = request.getParameter("fileId");
+        String decryptParameter = request.getParameter("decrypt");
         ShareService shareService = new ShareService(SHARE_DIRECTORY);
         String currentUser = (String) request.getSession().getAttribute("username");
 
-        File decryptedFile = null;
+        File fileToSend = null;
         try {
             Long fileId = Long.parseLong(fileIdParameter);
-            decryptedFile = shareService.decryptSharedFile(currentUser, fileId);
+            if ("dont".equals(decryptParameter)) {
+                fileToSend = shareService.getSharedFile(fileId);
+            } else {
+                fileToSend = shareService.decryptSharedFile(currentUser, fileId);
+            }
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        ServletUtils.sendResponseFile(response, decryptedFile);
-        decryptedFile.delete();
+        ServletUtils.sendResponseFile(response, fileToSend);
+        fileToSend.delete();
     }
 
 

@@ -80,6 +80,20 @@ public class ShareService {
         return decryptedFile;
     }
 
+    public File getSharedFile(Long fileId) {
+        EntityManager entityManager = emf.createEntityManager();
+        ShareLog shareLog = entityManager.find(ShareLog.class, fileId);
+
+        File sharedFile = new File(shareLog.getPathToFile());
+        shareLog.setDownloadDateTime(new Date());
+
+        entityManager.getTransaction().begin();
+        entityManager.merge(shareLog);
+        entityManager.getTransaction().commit();
+        entityManager.close();
+        return sharedFile;
+    }
+
     // Long - id of Sharelog
     // String - fileName of Sharelog
     public Map<Long, String> getSharedFilesListByUsername(String username) {

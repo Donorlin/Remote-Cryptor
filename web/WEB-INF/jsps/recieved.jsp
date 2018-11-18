@@ -36,7 +36,8 @@
             %>
         </table>
         </br>
-        </br><input type="submit" value="Decrypt and download"/>
+        Do not decrypt <input type="checkbox" name="decrypt" value="dont"></br>
+        </br><input type="submit" value="Download"/>
     </form>
     <%
     } else {
