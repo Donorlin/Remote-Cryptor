@@ -28,6 +28,6 @@ public class LogoutServlet extends HttpServlet {
         toRemove.setMaxAge(0);
         resp.addCookie(toRemove);
         req.setAttribute("errorMessage", "Log out successful.");
-        req.getRequestDispatcher("/WEB-INF/jsps/login.jsp").forward(req, resp);
+        req.getRequestDispatcher("/WEB-INF/jsps/views/login.jsp").forward(req, resp);
     }
 }

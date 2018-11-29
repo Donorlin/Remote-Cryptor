@@ -23,15 +23,15 @@ public class RegistrationServlet extends HttpServlet {
         ) {
             if(ServletUtils.isAuthenticated(request)) {
                 request.setAttribute("errorMessage", "You are already logged in. Please log out if you want to register a new user.");
-                request.getRequestDispatcher("/WEB-INF/jsps/share.jsp").forward(request, response);
+                request.getRequestDispatcher("/WEB-INF/jsps/views/share.jsp").forward(request, response);
                 return;
             } else {
                 request.setAttribute("errorMessage", "Wrong or no login token.");
-                request.getRequestDispatcher("/WEB-INF/jsps/register.jsp").forward(request, response);
+                request.getRequestDispatcher("/WEB-INF/jsps/views/register.jsp").forward(request, response);
                 return;
             }
         }
-        request.getRequestDispatcher("/WEB-INF/jsps/register.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/jsps/views/register.jsp").forward(request, response);
     }
 
     @Override
@@ -41,13 +41,13 @@ public class RegistrationServlet extends HttpServlet {
 
         if (!PwdUtils.isPwdStrong(password)) {
             req.setAttribute("errorMessage", "Weak password.");
-            req.getRequestDispatcher("/WEB-INF/jsps/register.jsp").forward(req, resp);
+            req.getRequestDispatcher("/WEB-INF/jsps/views/register.jsp").forward(req, resp);
             return;
         }
 
         if (PwdUtils.isPwdInDictionary(password)) {
             req.setAttribute("errorMessage", "Given password is in our pwd dictionary, choose different password");
-            req.getRequestDispatcher("/WEB-INF/jsps/register.jsp").forward(req, resp);
+            req.getRequestDispatcher("/WEB-INF/jsps/views/register.jsp").forward(req, resp);
             return;
         }
 
@@ -55,10 +55,10 @@ public class RegistrationServlet extends HttpServlet {
         boolean retVal = userService.storeUser(username, password);
         if (!retVal) {
             req.setAttribute("errorMessage", "User with given username already exists.");
-            req.getRequestDispatcher("/WEB-INF/jsps/register.jsp").forward(req, resp);
+            req.getRequestDispatcher("/WEB-INF/jsps/views/register.jsp").forward(req, resp);
         } else {
             req.setAttribute("errorMessage", "Registration successful. Please log in.");
-            req.getRequestDispatcher("/WEB-INF/jsps/login.jsp").forward(req, resp);
+            req.getRequestDispatcher("/WEB-INF/jsps/views/login.jsp").forward(req, resp);
         }
     }
 }

@@ -28,11 +28,11 @@ public class PrivateKeyDownloadServlet extends HttpServlet {
                 return;
             } else {
                 request.setAttribute("errorMessage", "Wrong or no login token.");
-                request.getRequestDispatcher("/WEB-INF/jsps/login.jsp").forward(request, response);
+                request.getRequestDispatcher("/WEB-INF/jsps/views/login.jsp").forward(request, response);
                 return;
             }
         }
         request.setAttribute("errorMessage", "Please log in.");
-        request.getRequestDispatcher("/WEB-INF/jsps/login.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/jsps/views/login.jsp").forward(request, response);
     }
 }

@@ -19,8 +19,8 @@ import java.util.List;
 @WebServlet("/share")
 public class FileShareCryptorServlet extends HttpServlet {
 
-    // private String SHARE_DIRECTORY = "D:/apache-tomcat-9.0.12/uploads/share";
-    private String SHARE_DIRECTORY = "/usr/local/apache-tomcat-9.0.12/uploads/share";
+    private String SHARE_DIRECTORY = "D:/apache-tomcat-9.0.12/uploads/share";
+    // private String SHARE_DIRECTORY = "/usr/local/apache-tomcat-9.0.12/uploads/share";
 
     private List<String> userList;
 
@@ -33,16 +33,16 @@ public class FileShareCryptorServlet extends HttpServlet {
         ) {
             if (ServletUtils.isAuthenticated(request)) {
                 fillUserlist(request);
-                request.getRequestDispatcher("/WEB-INF/jsps/share.jsp").forward(request, response);
+                request.getRequestDispatcher("/WEB-INF/jsps/views/share.jsp").forward(request, response);
                 return;
             } else {
                 request.setAttribute("errorMessage", "Wrong or no login token.");
-                request.getRequestDispatcher("/WEB-INF/jsps/login.jsp").forward(request, response);
+                request.getRequestDispatcher("/WEB-INF/jsps/views/login.jsp").forward(request, response);
                 return;
             }
         }
         request.setAttribute("errorMessage", "Please log in.");
-        request.getRequestDispatcher("/WEB-INF/jsps/login.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/jsps/views/login.jsp").forward(request, response);
     }
 
     @Override
@@ -78,10 +78,10 @@ public class FileShareCryptorServlet extends HttpServlet {
         fillUserlist(req);
         if (!retVal) {
             req.setAttribute("errorMessage", "Sharing failed.");
-            req.getRequestDispatcher("/WEB-INF/jsps/share.jsp").forward(req, resp);
+            req.getRequestDispatcher("/WEB-INF/jsps/views/share.jsp").forward(req, resp);
         } else {
             req.setAttribute("errorMessage", "File is shared with " + usernameToShareWith);
-            req.getRequestDispatcher("/WEB-INF/jsps/share.jsp").forward(req, resp);
+            req.getRequestDispatcher("/WEB-INF/jsps/views/share.jsp").forward(req, resp);
         }
         fileToShare.delete();
     }

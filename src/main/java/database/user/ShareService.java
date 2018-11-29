@@ -25,11 +25,11 @@ public class ShareService {
         this.shareDirectory = shareDirectory;
     }
 
-    public boolean shareFile(String originatorUsername, String recieverUsername, File fileToShare) {
+    public boolean shareFile(String originatorUsername, String receiverUsername, File fileToShare) {
         EntityManager entityManager = emf.createEntityManager();
         UserService userService = new UserService();
         User originator = userService.getUserByUsername(originatorUsername);
-        User reciever = userService.getUserByUsername(recieverUsername);
+        User receiver = userService.getUserByUsername(receiverUsername);
         String fileName = fileToShare.getName();
 
         File shareDir = new File(shareDirectory);
@@ -38,13 +38,13 @@ public class ShareService {
         }
 
         try {
-            File encryptedFile = File.createTempFile(originatorUsername, recieverUsername, shareDir);
+            File encryptedFile = File.createTempFile(originatorUsername, receiverUsername, shareDir);
 
-            CryptoUtils.encrypt(fileToShare, encryptedFile, recieverUsername);
+            CryptoUtils.encrypt(fileToShare, encryptedFile, receiverUsername);
 
             ShareLog shareLog = new ShareLog();
             shareLog.setOriginator(originator);
-            shareLog.setReciever(reciever);
+            shareLog.setReceiver(receiver);
             shareLog.setFileName(fileName);
             shareLog.setPathToFile(encryptedFile.getPath());
 
@@ -62,13 +62,13 @@ public class ShareService {
         return true;
     }
 
-    public File decryptSharedFile(String recieverUsername, Long fileId) throws Exception {
+    public File decryptSharedFile(String receiverUsername, Long fileId) throws Exception {
         EntityManager entityManager = emf.createEntityManager();
         ShareLog shareLog = entityManager.find(ShareLog.class, fileId);
 
         File sharedFile = new File(shareLog.getPathToFile());
         File decryptedFile = new File(shareDirectory + File.separator + shareLog.getFileName());
-        CryptoUtils.decrypt(sharedFile, decryptedFile, recieverUsername);
+        CryptoUtils.decrypt(sharedFile, decryptedFile, receiverUsername);
 
         shareLog.setDownloadDateTime(new Date());
 
@@ -99,7 +99,7 @@ public class ShareService {
     public Map<Long, String> getSharedFilesListByUsername(String username) {
         EntityManager entityManager = emf.createEntityManager();
         Map<Long, String> result = new HashMap<>();
-        TypedQuery<ShareLog> q = entityManager.createQuery("select s from ShareLog s where s.reciever.username = :username and s.downloadDateTime = null ", ShareLog.class);
+        TypedQuery<ShareLog> q = entityManager.createQuery("select s from ShareLog s where s.receiver.username = :username and s.downloadDateTime = null ", ShareLog.class);
         q.setParameter("username", username);
         List<ShareLog> qResultList = q.getResultList();
 

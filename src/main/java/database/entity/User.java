@@ -43,8 +43,8 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "originator")
     private List<ShareLog> sharedFiles;
 
-    @OneToMany(mappedBy = "reciever")
-    private List<ShareLog> recievedFiles;
+    @OneToMany(mappedBy = "receiver")
+    private List<ShareLog> receivedFiles;
 
 
     public User() {
@@ -119,12 +119,12 @@ public class User implements Serializable {
         this.sharedFiles = sharedFiles;
     }
 
-    public List<ShareLog> getRecievedFiles() {
-        return recievedFiles;
+    public List<ShareLog> getReceivedFiles() {
+        return receivedFiles;
     }
 
-    public void setRecievedFiles(List<ShareLog> recievedFiles) {
-        this.recievedFiles = recievedFiles;
+    public void setReceivedFiles(List<ShareLog> recievedFiles) {
+        this.receivedFiles = recievedFiles;
     }
 
     @PrePersist

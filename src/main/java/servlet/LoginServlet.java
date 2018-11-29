@@ -25,15 +25,15 @@ public class LoginServlet extends HttpServlet {
         ) {
            if(ServletUtils.isAuthenticated(request)) {
                request.setAttribute("errorMessage", "You are already logged in. Please log out if you want to change a user.");
-               request.getRequestDispatcher("/WEB-INF/jsps/share.jsp").forward(request, response);
+               request.getRequestDispatcher("/WEB-INF/jsps/views/share.jsp").forward(request, response);
                return;
            } else {
                request.setAttribute("errorMessage", "Wrong or no login token.");
-               request.getRequestDispatcher("/WEB-INF/jsps/login.jsp").forward(request, response);
+               request.getRequestDispatcher("/WEB-INF/jsps/views/login.jsp").forward(request, response);
                return;
            }
         }
-        request.getRequestDispatcher("/WEB-INF/jsps/login.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/jsps/views/login.jsp").forward(request, response);
     }
 
     @Override
@@ -44,7 +44,7 @@ public class LoginServlet extends HttpServlet {
         boolean retVal = userService.checkUserHash(username, password);
         if (!retVal) {
             req.setAttribute("errorMessage", "Bad user name or password");
-            req.getRequestDispatcher("WEB-INF/jsps/login.jsp").forward(req, resp);
+            req.getRequestDispatcher("WEB-INF/jsps/views/login.jsp").forward(req, resp);
         } else {
             String token = JWTUtils.generateJWT(username);
             req.getSession().setAttribute("jwt", token);

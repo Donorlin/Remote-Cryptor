@@ -23,7 +23,7 @@ public class PublicCryptorServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("/WEB-INF/jsps/cryptor.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/jsps/views/cryptor.jsp").forward(request, response);
     }
 
     @Override

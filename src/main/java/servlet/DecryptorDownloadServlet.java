@@ -17,7 +17,7 @@ public class DecryptorDownloadServlet extends HttpServlet {
     private String JAR_FILENAME = "local_decryptor_3000.jar";
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
         try {
             File jar = new File(JAR_DIRECTORY + File.separator + JAR_FILENAME);
             ServletUtils.sendResponseFile(resp, jar);

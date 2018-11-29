@@ -18,7 +18,7 @@ public class ShareLog implements Serializable {
     private User originator;
 
     @ManyToOne
-    private User reciever;
+    private User receiver;
 
     @Column(name = "FILENAME", nullable = false)
     private String fileName;
@@ -54,12 +54,12 @@ public class ShareLog implements Serializable {
         this.originator = originator;
     }
 
-    public User getReciever() {
-        return reciever;
+    public User getReceiver() {
+        return receiver;
     }
 
-    public void setReciever(User reciever) {
-        this.reciever = reciever;
+    public void setReceiver(User receiver) {
+        this.receiver = receiver;
     }
 
     public String getFileName() {
@@ -101,13 +101,13 @@ public class ShareLog implements Serializable {
         ShareLog shareLog = (ShareLog) o;
         return Objects.equals(id, shareLog.id) &&
                 Objects.equals(originator, shareLog.originator) &&
-                Objects.equals(reciever, shareLog.reciever) &&
+                Objects.equals(receiver, shareLog.receiver) &&
                 Objects.equals(fileName, shareLog.fileName) &&
                 Objects.equals(pathToFile, shareLog.pathToFile);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, originator, reciever, fileName, pathToFile);
+        return Objects.hash(id, originator, receiver, fileName, pathToFile);
     }
 }

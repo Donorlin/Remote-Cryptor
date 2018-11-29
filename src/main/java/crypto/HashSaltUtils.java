@@ -9,7 +9,7 @@ import java.security.spec.InvalidKeySpecException;
 public class HashSaltUtils {
 
     private static int SALT_BYTE_LENGTH = 8;
-    private static int PBKDF2_ITERATION_COUNT = 500000;
+    private static int PBKDF2_ITERATION_COUNT = 100000;
     private static String HASH_TRANSFORMATION = "PBKDF2WithHmacSHA256";
 
     private static SecureRandom RANDOM = new SecureRandom();
