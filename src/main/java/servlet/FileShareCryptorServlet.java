@@ -77,7 +77,6 @@ public class FileShareCryptorServlet extends HttpServlet {
                 System.out.println(ex);
             }
         }
-        // TODO upgradni sharecervice nech sa da vytvorit s komentarom ak nejaky prisiel ak ne nevadi
         ShareService shareService = new ShareService(SHARE_DIRECTORY);
         boolean retVal = shareService.shareFile(currentUser, usernameToShareWith, fileToShare, comment);
         fillUserlist(req);
