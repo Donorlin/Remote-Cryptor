@@ -12,16 +12,16 @@
             if (!list.isEmpty()) {
         %>
         <div class="d-flex justify-content-between">
-                <p class="h5">List of my files</p>
-                <form method="get" action="received">
-                    <div class="form-group row">
-                        <label for="input-search" class="col-sm-3 col-form-label">Search: </label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control-sm" id="input-search" name="searchWord"
-                                   placeholder="Search">
-                        </div>
+            <p class="h5">List of my files</p>
+            <form method="get" action="received">
+                <div class="form-group row">
+                    <label for="input-search" class="col-sm-3 col-form-label">Search: </label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control-sm" id="input-search" name="searchWord"
+                               placeholder="Search">
                     </div>
-                </form>
+                </div>
+            </form>
         </div>
         <div class="accordion" id="accordion-myfiles">
             <%
@@ -75,7 +75,9 @@
                                 <input type="hidden" value="<%=log.getId()%>" name="fileId"/>
                                 <label for="input-comment" class="col-md-3 col-form-label">Your comment:</label>
                                 <div class="col-md-5">
-                                    <textarea rows="4" class="form-control" id="input-comment" name="comment" form="form-comment-<%=log.getId()%>" placeholder="Write your comment here..." required></textarea>
+                                    <textarea rows="4" class="form-control" id="input-comment" name="comment"
+                                              form="form-comment-<%=log.getId()%>"
+                                              placeholder="Write your comment here..." required></textarea>
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-secondary">Share</button>
