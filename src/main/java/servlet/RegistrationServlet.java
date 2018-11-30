@@ -1,6 +1,6 @@
 package servlet;
 
-import database.user.UserService;
+import database.dao.UserService;
 import servlet.common.PwdUtils;
 import servlet.common.ServletUtils;
 
@@ -22,7 +22,7 @@ public class RegistrationServlet extends HttpServlet {
                 && request.getCookies().length > 0
         ) {
             if(ServletUtils.isAuthenticated(request)) {
-                request.setAttribute("errorMessage", "You are already logged in. Please log out if you want to register a new user.");
+                request.setAttribute("errorMessage", "You are already logged in. Please log out if you want to register a new dao.");
                 request.getRequestDispatcher("/WEB-INF/jsps/views/share.jsp").forward(request, response);
                 return;
             } else {
@@ -51,7 +51,7 @@ public class RegistrationServlet extends HttpServlet {
             return;
         }
 
-        UserService userService = new UserService();
+        UserService userService =  new UserService();
         boolean retVal = userService.storeUser(username, password);
         if (!retVal) {
             req.setAttribute("errorMessage", "User with given username already exists.");

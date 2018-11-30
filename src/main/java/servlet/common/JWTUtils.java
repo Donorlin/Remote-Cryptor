@@ -7,9 +7,8 @@ import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import database.entity.User;
-import database.user.UserService;
+import database.dao.UserService;
 
-import javax.xml.bind.DatatypeConverter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -18,7 +17,7 @@ import java.util.Map;
 public class JWTUtils {
 
     public static String generateJWT(String username) {
-        UserService userService = new UserService();
+        UserService userService =  new UserService();
         User user = userService.getUserByUsername(username);
 
         Calendar c = Calendar.getInstance();
@@ -48,7 +47,7 @@ public class JWTUtils {
     }
 
     public static boolean verifyJWT(String username, String token) {
-        UserService userService = new UserService();
+        UserService userService =  new UserService();
         User user = userService.getUserByUsername(username);
 
         try {

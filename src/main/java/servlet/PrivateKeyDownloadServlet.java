@@ -1,6 +1,6 @@
 package servlet;
 
-import database.user.UserService;
+import database.dao.UserService;
 import servlet.common.ServletUtils;
 
 import javax.servlet.ServletException;
@@ -22,7 +22,7 @@ public class PrivateKeyDownloadServlet extends HttpServlet {
         ) {
             if (ServletUtils.isAuthenticated(request)) {
                 String currentUser = (String) request.getSession().getAttribute("username");
-                UserService userService = new UserService();
+                UserService userService =  new UserService();
                 byte[] privateKeyBytes = userService.getPrivateKeyBytesByUsername(currentUser);
                 ServletUtils.sendResponseBytes(response, privateKeyBytes);
                 return;

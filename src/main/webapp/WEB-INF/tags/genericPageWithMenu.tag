@@ -30,8 +30,8 @@
 
 
 <div class="container mt-md-5 mb-md-5">
-    <jsp:invoke fragment="infoText"/>
     <jsp:include page="/WEB-INF/jsps/components/error.jsp"/>
+    <jsp:invoke fragment="infoText"/>
     <jsp:doBody/>
 </div>
 

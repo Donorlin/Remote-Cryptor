@@ -6,9 +6,10 @@
         <class>database.entity.User</class>
         <class>database.entity.PrivateKey</class>
         <class>database.entity.ShareLog</class>
+        <class>database.entity.Comment</class>
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect"/>
-            <property name="hibernate.connection.url" value="jdbc:mysql://147.175.121.187:3306/cryptor"/>
+            <property name="hibernate.connection.url" value="jdbc:mysql://147.175.121.187:3306/zadanie5"/>
             <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
             <property name="hibernate.connection.username" value="root"/>
             <property name="hibernate.connection.password" value="JumpUpAndDown"/>
