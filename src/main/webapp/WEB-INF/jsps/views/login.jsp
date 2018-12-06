@@ -4,7 +4,7 @@
 
 
 <c:set var="headerContent">
-    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+    <h2 class="h3 mb-3 font-weight-normal">Please sign in</h2>
 </c:set>
 
 <c:set var="bodyContent">
