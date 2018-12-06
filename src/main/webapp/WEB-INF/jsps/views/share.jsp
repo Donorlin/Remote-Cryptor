@@ -12,17 +12,16 @@
         %>
         <div class="p-md-3 rounded" style="border: solid #9999;">
             <p class="h5">File sharing</p>
-            <form action="share" method="post" enctype="multipart/form-data">
+            <form action="${pageContext.request.contextPath}/share" method="post" enctype="multipart/form-data" id="form-share">
                 <div class="form-group row">
-                    <label for="input-inputFile" class="col-md-3 col-form-label">Choose a file to share</label>
+                    <label for="input-inputFile" class="col-md-3 col-form-label">Choose a file:</label>
                     <div class="col-md-5">
                         <input type="file" class="form-control-file" id="input-inputFile" name="inputFile"
                                required="required"/>
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="input-shareWith" class="col-md-3 col-form-label">Choose a user to share the file
-                        with</label>
+                    <label for="input-shareWith" class="col-md-3 col-form-label">Share with:</label>
                     <div class="col-md-5">
                         <select name="shareWith" id="input-shareWith" class="form-control" required="required">
                             <option value="" disabled selected>Please choose a user</option>
@@ -35,6 +34,12 @@
                                 }
                             %>
                         </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="input-comment" class="col-md-3 col-form-label">Initial comment:</label>
+                    <div class="col-md-5">
+                        <textarea rows="4" class="form-control" id="input-comment" name="comment" form="form-share" placeholder="Write your comment here..."></textarea>
                     </div>
                 </div>
                 <button type="submit" class="btn btn-secondary">Share</button>

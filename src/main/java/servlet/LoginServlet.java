@@ -1,7 +1,6 @@
 package servlet;
 
-import database.entity.User;
-import database.user.UserService;
+import database.dao.UserService;
 import servlet.common.JWTUtils;
 import servlet.common.ServletUtils;
 
@@ -24,7 +23,7 @@ public class LoginServlet extends HttpServlet {
                 && request.getCookies().length > 0
         ) {
            if(ServletUtils.isAuthenticated(request)) {
-               request.setAttribute("errorMessage", "You are already logged in. Please log out if you want to change a user.");
+               request.setAttribute("errorMessage", "You are already logged in. Please log out if you want to change a dao.");
                request.getRequestDispatcher("/WEB-INF/jsps/views/share.jsp").forward(request, response);
                return;
            } else {
@@ -43,7 +42,7 @@ public class LoginServlet extends HttpServlet {
         UserService userService = new UserService();
         boolean retVal = userService.checkUserHash(username, password);
         if (!retVal) {
-            req.setAttribute("errorMessage", "Bad user name or password");
+            req.setAttribute("errorMessage", "Bad username or password");
             req.getRequestDispatcher("WEB-INF/jsps/views/login.jsp").forward(req, resp);
         } else {
             String token = JWTUtils.generateJWT(username);

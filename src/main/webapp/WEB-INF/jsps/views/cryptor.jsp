@@ -5,7 +5,7 @@
 <c:set var="bodyContent">
 
     <div>
-        <form action="cryptor" method="post" enctype="multipart/form-data">
+        <form action="${pageContext.request.contextPath}/cryptor" method="post" enctype="multipart/form-data">
             <h3>Choose file to encrypt/decrypt</h3>
             <input type="file" name="inputFile" required="required"/>
             <h3>Choose what you want to do with a file</h3>
@@ -31,7 +31,7 @@
     <jsp:attribute name="footer">
         <h3>If you do not want to upload your private key, simply download our Local Decryptor 3000 and decipher your
             file locally.</h3>
-        <form action="decryptor" method="get">
+        <form action="${pageContext.request.contextPath}/decryptor" method="get">
             <input type="submit" value="Download"/>
         </form>
         <p>This page can be accessed without being logged in thus has no menu support.</p>

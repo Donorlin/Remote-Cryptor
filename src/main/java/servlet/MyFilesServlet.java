@@ -1,7 +1,7 @@
 package servlet;
 
-import database.user.ShareService;
-import database.user.UserService;
+import database.dao.ShareService;
+import database.entity.ShareLog;
 import servlet.common.ServletUtils;
 
 import javax.servlet.ServletException;
@@ -11,14 +11,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
-import java.util.Map;
+import java.util.List;
 
-@WebServlet("/received")
-public class SharedFilesServlet extends HttpServlet {
+@WebServlet("/myfiles")
+public class MyFilesServlet extends HttpServlet {
 
-    private Map<Long, String> sharedFilesList;
-    private String SHARE_DIRECTORY = "D:/apache-tomcat-9.0.12/uploads/share";
-    // private String SHARE_DIRECTORY = "/usr/local/apache-tomcat-9.0.12/uploads/share";
+    private List<ShareLog> sharedFilesList;
+//    private String SHARE_DIRECTORY = "D:/apache-tomcat-9.0.12/uploads/share";
+    private String SHARE_DIRECTORY = "/usr/local/apache-tomcat-9.0.12/uploads/share";
 
 
     @Override
@@ -31,9 +31,15 @@ public class SharedFilesServlet extends HttpServlet {
             if (ServletUtils.isAuthenticated(request)) {
                 ShareService shareService = new ShareService(SHARE_DIRECTORY);
                 String currentUser = (String) request.getSession().getAttribute("username");
-                sharedFilesList = shareService.getSharedFilesListByUsername(currentUser);
+
+                if (request.getParameter("searchWord") != null && !request.getParameter("searchWord").isEmpty()) {
+                    sharedFilesList = shareService.getSharedFilesBySearch(currentUser, request.getParameter("searchWord"));
+                } else {
+                    sharedFilesList = shareService.getSharedFilesByUsername(currentUser);
+                }
+
                 request.setAttribute("sharedFiles", sharedFilesList);
-                request.getRequestDispatcher("/WEB-INF/jsps/views/received.jsp").forward(request, response);
+                request.getRequestDispatcher("/WEB-INF/jsps/views/myfiles.jsp").forward(request, response);
                 return;
             } else {
                 request.setAttribute("errorMessage", "Wrong or no login token.");
@@ -64,7 +70,9 @@ public class SharedFilesServlet extends HttpServlet {
             ex.printStackTrace();
         }
         ServletUtils.sendResponseFile(response, fileToSend);
-        fileToSend.delete();
+        if(!"dont".equals(decryptParameter)) {
+            fileToSend.delete();
+        }
     }
 
 

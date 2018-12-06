@@ -1,10 +1,12 @@
-package database.user;
+package database.dao;
 
 import crypto.CryptoUtils;
 import database.EntityManagerFactorySingleton;
+import database.entity.Comment;
 import database.entity.ShareLog;
 import database.entity.User;
 
+import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
@@ -20,12 +22,17 @@ public class ShareService {
 
     private String shareDirectory;
 
+
+    public ShareService() {
+        emf = EntityManagerFactorySingleton.getEMF();
+    }
+
     public ShareService(String shareDirectory) {
         emf = EntityManagerFactorySingleton.getEMF();
         this.shareDirectory = shareDirectory;
     }
 
-    public boolean shareFile(String originatorUsername, String receiverUsername, File fileToShare) {
+    public boolean shareFile(String originatorUsername, String receiverUsername, File fileToShare, String comment) {
         EntityManager entityManager = emf.createEntityManager();
         UserService userService = new UserService();
         User originator = userService.getUserByUsername(originatorUsername);
@@ -36,7 +43,6 @@ public class ShareService {
         if (!shareDir.exists()) {
             shareDir.mkdir();
         }
-
         try {
             File encryptedFile = File.createTempFile(originatorUsername, receiverUsername, shareDir);
 
@@ -48,6 +54,13 @@ public class ShareService {
             shareLog.setFileName(fileName);
             shareLog.setPathToFile(encryptedFile.getPath());
 
+            if (comment != null && !comment.isEmpty()) {
+                Comment initialComment = new Comment();
+                initialComment.setComment(comment);
+                initialComment.setAuthor(originator);
+                initialComment.setShareLog(shareLog);
+                entityManager.persist(initialComment);
+            }
 
             entityManager.getTransaction().begin();
             entityManager.persist(shareLog);
@@ -76,7 +89,6 @@ public class ShareService {
         entityManager.merge(shareLog);
         entityManager.getTransaction().commit();
         entityManager.close();
-        sharedFile.delete();
         return decryptedFile;
     }
 
@@ -94,22 +106,52 @@ public class ShareService {
         return sharedFile;
     }
 
-    // Long - id of Sharelog
-    // String - fileName of Sharelog
-    public Map<Long, String> getSharedFilesListByUsername(String username) {
+    public List<ShareLog> getSharedFilesByUsername(String username) {
         EntityManager entityManager = emf.createEntityManager();
-        Map<Long, String> result = new HashMap<>();
-        TypedQuery<ShareLog> q = entityManager.createQuery("select s from ShareLog s where s.receiver.username = :username and s.downloadDateTime = null ", ShareLog.class);
+        TypedQuery<ShareLog> q = entityManager.createQuery("select s from ShareLog s where s.receiver.username = :username", ShareLog.class);
         q.setParameter("username", username);
         List<ShareLog> qResultList = q.getResultList();
-
-        qResultList.forEach(item -> {
-            result.put(item.getId(), item.getFileName());
-        });
+        System.out.println("RLIST1 SIZE " + qResultList.size());
 
         entityManager.close();
-        return result;
+        return qResultList;
     }
 
+    public List<ShareLog> getSharedFilesBySearch(String username, String searchString) {
+        EntityManager entityManager = emf.createEntityManager();
+        TypedQuery<ShareLog> q = entityManager.createQuery("select distinct s from ShareLog s join Comment c on c.shareLog.id = s.id where s.receiver.username = :username and (s.fileName like :searchString or c.comment like :searchString or c.author.username like :searchString or s.originator.username like :searchString)",ShareLog.class);
+        q.setParameter("searchString", "%" + searchString + "%");
+        q.setParameter("username", username);
+        List<ShareLog> qResultList = q.getResultList();
+        System.out.println("RLIST2 SIZE " + qResultList.size());
+        entityManager.close();
+        return qResultList;
+    }
+
+    public List<ShareLog> getAllSharedFiles() {
+        EntityManager entityManager = emf.createEntityManager();
+        TypedQuery<ShareLog> q = entityManager.createQuery("select s from ShareLog s", ShareLog.class);
+        List<ShareLog> qResultList = q.getResultList();
+        System.out.println("RLIST3 SIZE " + qResultList.size());
+
+        entityManager.close();
+        return qResultList;
+    }
+
+    public List<ShareLog> getAllSharedFilesBySearch(String searchString) {
+        EntityManager entityManager = emf.createEntityManager();
+        TypedQuery<ShareLog> q = entityManager.createQuery("select distinct s from ShareLog s join Comment c on c.shareLog.id = s.id where s.fileName like :searchString or c.comment like :searchString or c.author.username like :searchString or s.originator.username like :searchString",ShareLog.class);
+        q.setParameter("searchString", "%" + searchString + "%");
+        List<ShareLog> qResultList = q.getResultList();
+        System.out.println("RLIST4 SIZE " + qResultList.size());
+
+        entityManager.close();
+        return qResultList;
+    }
+
+    public ShareLog getShareLogByFileId(String fileId) {
+        EntityManager entityManager = emf.createEntityManager();
+        return entityManager.find(ShareLog.class, Long.parseLong(fileId));
+    }
 
 }

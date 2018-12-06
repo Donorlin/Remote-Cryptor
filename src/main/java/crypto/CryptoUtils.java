@@ -1,14 +1,13 @@
 package crypto;
 
 import database.entity.User;
-import database.user.UserService;
+import database.dao.UserService;
 
 import javax.crypto.*;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.rmi.server.ExportException;
 import java.security.*;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;

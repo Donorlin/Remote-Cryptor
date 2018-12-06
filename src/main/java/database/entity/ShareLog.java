@@ -3,6 +3,7 @@ package database.entity;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -20,6 +21,9 @@ public class ShareLog implements Serializable {
     @ManyToOne
     private User receiver;
 
+    @OneToMany(mappedBy = "shareLog", fetch = FetchType.EAGER)
+    private List<Comment> comments;
+
     @Column(name = "FILENAME", nullable = false)
     private String fileName;
 
@@ -33,6 +37,14 @@ public class ShareLog implements Serializable {
     @Column(name = "DOWNLOADDATETIME")
     @Temporal(TemporalType.TIMESTAMP)
     private Date downloadDateTime;
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
 
     public ShareLog() {
         setUploadDateTime();

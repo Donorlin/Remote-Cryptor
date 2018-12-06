@@ -18,7 +18,7 @@ import java.util.List;
 @WebServlet("/cryptor")
 public class PublicCryptorServlet extends HttpServlet {
     private static long serialVersionUID = 1L;
-    // private final String UPLOAD_DIRECTORY = "D:/apache-tomcat-9.0.12/uploads";
+//     private final String UPLOAD_DIRECTORY = "D:/apache-tomcat-9.0.12/uploads";
     private String UPLOAD_DIRECTORY = "/usr/local/apache-tomcat-9.0.12/uploads";
 
     @Override

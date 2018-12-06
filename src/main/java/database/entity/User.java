@@ -46,6 +46,8 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "receiver")
     private List<ShareLog> receivedFiles;
 
+    @OneToMany(mappedBy = "author")
+    private List<Comment> comments;
 
     public User() {
     }

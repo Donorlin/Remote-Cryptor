@@ -1,4 +1,4 @@
-package database.user;
+package database.dao;
 
 import crypto.HashSaltUtils;
 import database.EntityManagerFactorySingleton;
@@ -6,12 +6,10 @@ import database.entity.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 

@@ -1,7 +1,7 @@
 package servlet;
 
-import database.user.ShareService;
-import database.user.UserService;
+import database.dao.ShareService;
+import database.dao.UserService;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
@@ -19,8 +19,8 @@ import java.util.List;
 @WebServlet("/share")
 public class FileShareCryptorServlet extends HttpServlet {
 
-    private String SHARE_DIRECTORY = "D:/apache-tomcat-9.0.12/uploads/share";
-    // private String SHARE_DIRECTORY = "/usr/local/apache-tomcat-9.0.12/uploads/share";
+//    private String SHARE_DIRECTORY = "D:/apache-tomcat-9.0.12/uploads/share";
+     private String SHARE_DIRECTORY = "/usr/local/apache-tomcat-9.0.12/uploads/share";
 
     private List<String> userList;
 
@@ -51,6 +51,7 @@ public class FileShareCryptorServlet extends HttpServlet {
         File fileToShare = null;
         String usernameToShareWith = null;
         String currentUser = (String) req.getSession().getAttribute("username");
+        String comment = null;
 
         if (ServletFileUpload.isMultipartContent(req)) {
             try {
@@ -64,8 +65,11 @@ public class FileShareCryptorServlet extends HttpServlet {
                             item.write(fileToShare);
                         }
                     } else {
-                        if (item.getFieldName().equals("shareWith")) {
+                        if (("shareWith").equals(item.getFieldName())) {
                             usernameToShareWith = item.getString();
+                        }
+                        if (("comment").equals(item.getFieldName())) {
+                            comment = item.getString();
                         }
                     }
                 }
@@ -74,7 +78,7 @@ public class FileShareCryptorServlet extends HttpServlet {
             }
         }
         ShareService shareService = new ShareService(SHARE_DIRECTORY);
-        boolean retVal = shareService.shareFile(currentUser, usernameToShareWith, fileToShare);
+        boolean retVal = shareService.shareFile(currentUser, usernameToShareWith, fileToShare, comment);
         fillUserlist(req);
         if (!retVal) {
             req.setAttribute("errorMessage", "Sharing failed.");
