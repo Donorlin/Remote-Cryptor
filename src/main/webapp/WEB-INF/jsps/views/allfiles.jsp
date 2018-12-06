@@ -1,6 +1,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page import="database.entity.ShareLog" %>
 <%@ page import="java.util.List" %>
 <%@ page import="database.entity.Comment" %>
@@ -39,13 +40,21 @@
                             <div class="col">
                                 <div class="float-sm-right">
                                     <div class="row">
-                                        <div>Originator: </div>
-                                        <div class="font-weight-light"><%=log.getOriginator().getUsername()%>
+                                        <div class="col">
+                                            <div>From:</div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="font-weight-light"><%=log.getOriginator().getUsername()%>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div>Receiver: </div>
-                                        <div class="font-weight-light"><%=log.getReceiver().getUsername()%>
+                                        <div class="col">
+                                            <div>To:</div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="font-weight-light"><%=log.getReceiver().getUsername()%>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -60,54 +69,71 @@
                         <%
                             for (Comment comment : log.getComments()) {
                         %>
-                        <div>
-                            <div>
-                                <strong><%=comment.getAuthor().getUsername()%>
-                                </strong> <span
-                                    class="text-muted"><%=comment.getCreateTime().toString()%></span>
-                            </div>
-                            <div>
-                                <%=comment.toString()%>
-                            </div>
-                        </div>
+                        <c:set var="comment" value="<%=comment.getComment()%>"/>
                         <%
-                            }
+                            if (request.getSession().getAttribute("username").equals(comment.getAuthor().getUsername())) {
                         %>
-                        <form action="${pageContext.request.contextPath}/comment" method="post" id="form-comment-<%=log.getId()%>">
-                            <div class="form-group">
-                                <input type="hidden" value="<%=log.getId()%>" name="fileId"/>
-                                <label for="input-comment" class="col-md-3 col-form-label">Your comment:</label>
-                                <div class="col-md-5">
+                        <div class="row ml-2 mb-2">
+                            <%
+                            } else {
+                            %>
+                            <div class="row mb-2 mr-2 justify-content-end">
+                                <%
+                                    }
+                                %>
+                                <div class="col-auto d-inline-block p-1 border border-secondary rounded">
+                                    <div class="border-bottom border-secondary">
+                                        <strong><%=comment.getAuthor().getUsername()%>
+                                        </strong> <span
+                                            class="text-muted"><%=comment.getCreateTime().toString()%></span>
+                                    </div>
+                                    <div>
+                                            ${fn:escapeXml(comment)}
+                                    </div>
+                                </div>
+                            </div>
+                            <%
+                                }
+                            %>
+                            <form action="${pageContext.request.contextPath}/comment" method="post"
+                                  id="form-comment-<%=log.getId()%>">
+                                <div class="form-group">
+                                    <input type="hidden" value="<%=log.getId()%>" name="fileId"/>
+                                    <label for="input-comment" class="col-md-3 col-form-label">Your comment:</label>
+                                    <div class="col-md-4">
                                     <textarea rows="4" class="form-control" id="input-comment" name="comment"
                                               form="form-comment-<%=log.getId()%>"
                                               placeholder="Write your comment here..." required></textarea>
+                                    </div>
                                 </div>
-                            </div>
-                            <button type="submit" class="btn btn-secondary">Share</button>
-                        </form>
+                                <button type="submit" class="btn btn-secondary">Share</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
+                <%
+                    }
+                %>
+            </div>
+            <%
+            } else {
+            %>
+            <div class="alert alert-danger text-center" role="alert">
+                There are no shared files at this moment.
             </div>
             <%
                 }
             %>
         </div>
-        <%
-        } else {
-        %>
-        <div class="alert alert-danger text-center" role="alert">
-            There are no shared files at this moment.
-        </div>
-        <%
-            }
-        %>
     </div>
 </c:set>
 
 <c:set var="infoText">
     <div>
         <p class="h4">All shared files</p>
-        <p>TODO</p>
+        <p>On this page you can see all shared files. You can not download any, even if some files are meant for you.
+            You can download your files <a href="${pageContext.request.contextPath}/myfiles">here</a>. Feel free to
+            leave a comment or two if you want a file owner to share a given file with you. </p>
     </div>
 </c:set>
 

@@ -1,6 +1,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page import="database.entity.ShareLog" %>
 <%@ page import="java.util.List" %>
 <%@ page import="database.entity.Comment" %>
@@ -57,54 +58,69 @@
                         <%
                             for (Comment comment : log.getComments()) {
                         %>
-                        <div>
-                            <div>
-                                <strong><%=comment.getAuthor().getUsername()%>
-                                </strong> <span
-                                    class="text-muted"><%=comment.getCreateTime().toString()%></span>
-                            </div>
-                            <div>
-                                <%=comment.toString()%>
-                            </div>
-                        </div>
+                        <c:set var="comment" value="<%=comment.getComment()%>"/>
                         <%
-                            }
+                            if (request.getSession().getAttribute("username").equals(comment.getAuthor().getUsername())) {
                         %>
-                        <form action="${pageContext.request.contextPath}/comment" method="post" id="form-comment-<%=log.getId()%>">
-                            <div class="form-group">
-                                <input type="hidden" value="<%=log.getId()%>" name="fileId"/>
-                                <label for="input-comment" class="col-md-3 col-form-label">Your comment:</label>
-                                <div class="col-md-5">
+                        <div class="row ml-2 mb-2">
+                            <%
+                            } else {
+                            %>
+                            <div class="row mb-2 mr-2 justify-content-end">
+                                <%
+                                    }
+                                %>
+                                <div class="col-auto d-inline-block p-1 border border-secondary rounded">
+                                    <div class="border-bottom border-secondary">
+                                        <strong><%=comment.getAuthor().getUsername()%>
+                                        </strong> <span
+                                            class="text-muted"><%=comment.getCreateTime().toString()%></span>
+                                    </div>
+                                    <div>
+                                            ${fn:escapeXml(comment)}
+                                    </div>
+                                </div>
+                            </div>
+                            <%
+                                }
+                            %>
+                            <form action="${pageContext.request.contextPath}/comment" method="post"
+                                  id="form-comment-<%=log.getId()%>">
+                                <div class="form-group">
+                                    <input type="hidden" value="<%=log.getId()%>" name="fileId"/>
+                                    <label for="input-comment" class="col-md-3 col-form-label">Your comment:</label>
+                                    <div class="col-md-4">
                                     <textarea rows="4" class="form-control" id="input-comment" name="comment"
                                               form="form-comment-<%=log.getId()%>"
                                               placeholder="Write your comment here..." required></textarea>
+                                    </div>
                                 </div>
-                            </div>
-                            <button type="submit" class="btn btn-secondary">Share</button>
-                        </form>
+                                <button type="submit" class="btn btn-secondary">Share</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
+                <%
+                    }
+                %>
+            </div>
+            <%
+            } else {
+            %>
+            <div class="alert alert-danger text-center" role="alert">
+                You have no received files.
             </div>
             <%
                 }
             %>
         </div>
-        <%
-        } else {
-        %>
-        <div class="alert alert-danger text-center" role="alert">
-            You have no received files.
-        </div>
-        <%
-            }
-        %>
     </div>
 </c:set>
 
 <c:set var="infoText">
     <div>
         <p class="h4">My files</p>
-        <p>On this page you can see files that somebody else shared with you. You can download encrypted or decrypted
+        <p>On this page you can see files somebody else shared with you. You can download encrypted or decrypted
             version of these files.
             If you choose to download encrypted version of the file, you need to have a Local Decryptor 3000 downloaded
             on your machine and your
