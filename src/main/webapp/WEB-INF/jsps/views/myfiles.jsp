@@ -13,7 +13,7 @@
         %>
         <div class="d-flex justify-content-between">
             <p class="h5">List of my files</p>
-            <form method="get" action="received">
+            <form method="get" action="${pageContext.request.contextPath}/myfiles">
                 <div class="form-group row">
                     <label for="input-search" class="col-sm-3 col-form-label">Search: </label>
                     <div class="col-sm-9">
@@ -37,12 +37,12 @@
                                 <%=log.getFileName()%>
                             </button>
                             <div class="ml-auto">
-                                <form method="post" action="received">
+                                <form method="post" action="${pageContext.request.contextPath}/myfiles">
                                     <input type="hidden" value="<%=log.getId()%>" name="fileId"/>
                                     <input type="hidden" value="dont" name="decrypt"/>
                                     <button class="btn btn-link" type="submit">Download encrypted</button>
                                 </form>
-                                <form method="post" action="received">
+                                <form method="post" action="${pageContext.request.contextPath}/myfiles">
                                     <input type="hidden" value="<%=log.getId()%>" name="fileId"/>
                                     <button class="btn btn-link" type="submit">Download decrypted</button>
                                 </form>
@@ -70,7 +70,7 @@
                         <%
                             }
                         %>
-                        <form action="comment" method="post" id="form-comment-<%=log.getId()%>">
+                        <form action="${pageContext.request.contextPath}/comment" method="post" id="form-comment-<%=log.getId()%>">
                             <div class="form-group">
                                 <input type="hidden" value="<%=log.getId()%>" name="fileId"/>
                                 <label for="input-comment" class="col-md-3 col-form-label">Your comment:</label>

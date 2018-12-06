@@ -12,14 +12,13 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
-@WebServlet("/received")
-public class SharedFilesServlet extends HttpServlet {
+@WebServlet("/myfiles")
+public class MyFilesServlet extends HttpServlet {
 
     private List<ShareLog> sharedFilesList;
-    private String SHARE_DIRECTORY = "D:/apache-tomcat-9.0.12/uploads/share";
-//    private String SHARE_DIRECTORY = "/usr/local/apache-tomcat-9.0.12/uploads/share";
+//    private String SHARE_DIRECTORY = "D:/apache-tomcat-9.0.12/uploads/share";
+    private String SHARE_DIRECTORY = "/usr/local/apache-tomcat-9.0.12/uploads/share";
 
 
     @Override
@@ -33,14 +32,14 @@ public class SharedFilesServlet extends HttpServlet {
                 ShareService shareService = new ShareService(SHARE_DIRECTORY);
                 String currentUser = (String) request.getSession().getAttribute("username");
 
-                if (request.getParameter("searchWord") != null) {
+                if (request.getParameter("searchWord") != null && !request.getParameter("searchWord").isEmpty()) {
                     sharedFilesList = shareService.getSharedFilesBySearch(currentUser, request.getParameter("searchWord"));
                 } else {
-                    sharedFilesList = shareService.getSharedFilesListByUsername(currentUser);
+                    sharedFilesList = shareService.getSharedFilesByUsername(currentUser);
                 }
 
                 request.setAttribute("sharedFiles", sharedFilesList);
-                request.getRequestDispatcher("/WEB-INF/jsps/views/received.jsp").forward(request, response);
+                request.getRequestDispatcher("/WEB-INF/jsps/views/myfiles.jsp").forward(request, response);
                 return;
             } else {
                 request.setAttribute("errorMessage", "Wrong or no login token.");

@@ -9,7 +9,7 @@
 
 <c:set var="bodyContent">
     <div>
-        <form class="form-signin" method="post" action="">
+        <form class="form-signin" method="post" action="${pageContext.request.contextPath}/register">
             <label for="inputUsername" class="sr-only">Username</label>
             <input type="text" name="username" id="inputUsername" class="form-control" placeholder="Username" required
                    autofocus>
@@ -18,7 +18,7 @@
                    required>
             <button class="btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
         </form>
-        <p>Already register? Click <a href="login">here</a> to log in.</p>
+        <p>Already register? Click <a href="${pageContext.request.contextPath}/login">here</a> to log in.</p>
     </div>
 </c:set>
 

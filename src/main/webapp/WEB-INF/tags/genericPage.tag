@@ -8,6 +8,17 @@
     <script src="${pageContext.request.contextPath}/static/js/jquery-3.3.1.min.js" type="text/javascript"></script>
     <script src="${pageContext.request.contextPath}/static/js/popper.min.js" type="text/javascript"></script>
     <script src="${pageContext.request.contextPath}/static/js/bootstrap.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            var xtoken = '${pageContext.request.getAttribute("X-TOKEN")}';
+            $('<input>').attr({
+                type: 'hidden',
+                name: 'X-TOKEN',
+                value: xtoken
+            }).appendTo('form');
+            console.log(xtoken);
+        });
+    </script>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/bootstrap.min.css" type="text/css"/>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/index.css" type="text/css"/>
 

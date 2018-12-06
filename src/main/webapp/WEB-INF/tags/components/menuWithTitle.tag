@@ -10,13 +10,13 @@
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <a class="nav-link" href="share">Share</a>
+                <a class="nav-link" href="${pageContext.request.contextPath}/share">Share</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="received">My files</a>
+                <a class="nav-link" href="${pageContext.request.contextPath}/myfiles">My files</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="cryptor">Remote cryptor</a>
+                <a class="nav-link" href="${pageContext.request.contextPath}/allfiles">All files</a>
             </li>
         </ul>
         <div class="navbar-nav mx-auto text-secondary">
@@ -24,13 +24,16 @@
         </div>
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-                <a class="nav-link" href="decryptor">Download Local Decryptor</a>
+                <a class="nav-link" href="${pageContext.request.contextPath}/cryptor">Remote cryptor</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="privatekey">Download private key</a>
+                <a class="nav-link" href="${pageContext.request.contextPath}/decryptor">Download Local Decryptor</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="logout">Logout</a>
+                <a class="nav-link" href="${pageContext.request.contextPath}/privatekey">Download private key</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="${pageContext.request.contextPath}/logout">Logout</a>
             </li>
         </ul>
     </div>

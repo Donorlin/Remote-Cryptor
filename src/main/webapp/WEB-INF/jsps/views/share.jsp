@@ -12,7 +12,7 @@
         %>
         <div class="p-md-3 rounded" style="border: solid #9999;">
             <p class="h5">File sharing</p>
-            <form action="share" method="post" enctype="multipart/form-data" id="form-share">
+            <form action="${pageContext.request.contextPath}/share" method="post" enctype="multipart/form-data" id="form-share">
                 <div class="form-group row">
                     <label for="input-inputFile" class="col-md-3 col-form-label">Choose a file:</label>
                     <div class="col-md-5">
