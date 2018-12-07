@@ -19,7 +19,6 @@ import java.io.IOException;
 import java.util.List;
 
 @WebServlet(urlPatterns = "/share", name = "FileShareCryptorServlet")
-@MultipartConfig(location = "D:/apache-tomcat-9.0.12/uploads/tmp")
 public class FileShareCryptorServlet extends HttpServlet {
 
     private List<String> userList;

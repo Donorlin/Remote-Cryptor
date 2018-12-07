@@ -17,18 +17,18 @@
 
     <context-param>
         <param-name>SHARE_DIRECTORY</param-name>
-        <param-value>D:/apache-tomcat-9.0.12/uploads/share</param-value>
-        <!--<param-value>/usr/local/apache-tomcat-9.0.12/uploads/share</param-value>-->
+        <!--<param-value>D:/apache-tomcat-9.0.12/uploads/share/</param-value>-->
+        <param-value>/usr/local/apache-tomcat-9.0.12/uploads/share/</param-value>
     </context-param>
     <context-param>
         <param-name>UPLOAD_DIRECTORY</param-name>
-        <param-value>D:/apache-tomcat-9.0.12/uploads</param-value>
-        <!--<param-value>/usr/local/apache-tomcat-9.0.12/upload</param-value>-->
+        <!--<param-value>D:/apache-tomcat-9.0.12/uploads/</param-value>-->
+        <param-value>/usr/local/apache-tomcat-9.0.12/uploads/</param-value>
     </context-param>
     <context-param>
         <param-name>DECRYPTOR_JAR_DIRECTORY</param-name>
-        <param-value>D:/apache-tomcat-9.0.12/uploads/decryptor</param-value>
-        <!--<param-value>/usr/local/apache-tomcat-9.0.12/uploads/decryptor</param-value>-->
+        <!--<param-value>D:/apache-tomcat-9.0.12/uploads/decryptor/</param-value>-->
+        <param-value>/usr/local/apache-tomcat-9.0.12/uploads/decryptor/</param-value>
     </context-param>
     <context-param>
         <param-name>DECRYPTOR_JAR_FILENAME</param-name>
@@ -45,6 +45,10 @@
         <filter-class>servlet.filter.FileShareCryptorFilter</filter-class>
     </filter>
     <filter>
+        <filter-name>PublicCryptorFilter</filter-name>
+        <filter-class>servlet.filter.PublicCryptorFilter</filter-class>
+    </filter>
+    <filter>
         <filter-name>ValidateCsrfTokenFilter</filter-name>
         <filter-class>servlet.filter.ValidateCsrfTokenFilter</filter-class>
     </filter>
@@ -57,6 +61,10 @@
     <filter-mapping>
         <filter-name>FileShareCryptorFilter</filter-name>
         <url-pattern>/share</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>PublicCryptorFilter</filter-name>
+        <url-pattern>/cryptor</url-pattern>
     </filter-mapping>
     <filter-mapping>
         <filter-name>ValidateCsrfTokenFilter</filter-name>

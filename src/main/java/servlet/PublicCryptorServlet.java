@@ -34,49 +34,29 @@ public class PublicCryptorServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException {
-        if (ServletFileUpload.isMultipartContent(req)) {
-            try {
-                List<FileItem> multiparts = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(req);
-                File inputFile = null;
-                File outputFile = null;
-                File key = null;
-                String fileName = null;
-                String mode = null;
-                for (FileItem item : multiparts) {
-                    if (!item.isFormField()) {
-                        if (item.getFieldName().equals("inputFile")) {
-                            fileName = new File(item.getName()).getName();
-                            inputFile = new File(UPLOAD_DIRECTORY + File.separator + fileName);
-                            item.write(inputFile);
-                        }
-                        if (item.getFieldName().equals("key")) {
-                            String keyFileName = new File(item.getName()).getName();
-                            key = new File(UPLOAD_DIRECTORY + File.separator + keyFileName);
-                            item.write(key);
-                        }
-                    } else {
-                        if (item.getFieldName().equals("type")) {
-                            mode = item.getString();
-                        }
-                    }
-                }
+        try {
+            File inputFile = (File) req.getAttribute("inputFile");;
+            File key = (File) req.getAttribute("key");
+            String fileName = (String) req.getAttribute("fileName");
+            String mode = (String) req.getAttribute("mode");
+            File outputFile = null;
 
-                if ("encrypt".equals(mode)) {
-                    outputFile = new File(UPLOAD_DIRECTORY + File.separator + fileName + ".enc");
-                    CryptoUtils.encrypt(inputFile, outputFile, key);
-                } else if ("decrypt".equals(mode)) {
-                    outputFile = new File(UPLOAD_DIRECTORY + File.separator + fileName + ".dec");
-                    CryptoUtils.decrypt(inputFile, outputFile, key);
-                }
-
-                ServletUtils.sendResponseFile(resp, outputFile);
-
-                inputFile.delete();
-                outputFile.delete();
-                key.delete();
-            } catch (Exception ex) {
-                System.out.println(ex);
+            if ("encrypt".equals(mode)) {
+                outputFile = new File(UPLOAD_DIRECTORY + File.separator + fileName + ".enc");
+                CryptoUtils.encrypt(inputFile, outputFile, key);
+            } else if ("decrypt".equals(mode)) {
+                outputFile = new File(UPLOAD_DIRECTORY + File.separator + fileName + ".dec");
+                CryptoUtils.decrypt(inputFile, outputFile, key);
             }
+
+            ServletUtils.sendResponseFile(resp, outputFile);
+
+            inputFile.delete();
+            outputFile.delete();
+            key.delete();
+        } catch (Exception ex) {
+            System.out.println(ex);
         }
+
     }
 }
