@@ -17,8 +17,6 @@ public class AllFilesServlet extends HttpServlet {
 
 
     private List<ShareLog> sharedFilesList;
-    //    private String SHARE_DIRECTORY = "D:/apache-tomcat-9.0.12/uploads/share";
-    private String SHARE_DIRECTORY = "/usr/local/apache-tomcat-9.0.12/uploads/share";
 
 
     @Override
@@ -29,7 +27,7 @@ public class AllFilesServlet extends HttpServlet {
                 && request.getCookies().length > 0
         ) {
             if (ServletUtils.isAuthenticated(request)) {
-                ShareService shareService = new ShareService(SHARE_DIRECTORY);
+                ShareService shareService = new ShareService();
 
                 if (request.getParameter("searchWord") != null && !request.getParameter("searchWord").isEmpty()) {
                     sharedFilesList = shareService.getAllSharedFilesBySearch(request.getParameter("searchWord"));

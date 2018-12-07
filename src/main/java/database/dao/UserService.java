@@ -7,6 +7,7 @@ import database.entity.User;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -44,9 +45,9 @@ public class UserService {
 
     public User getUserByUsername(String username) {
         EntityManager entityManager = emf.createEntityManager();
-        Query q = entityManager.createQuery("select u from User u where u.username = :username");
+        TypedQuery<User> q = entityManager.createQuery("select u from User u where u.username = :username", User.class);
         q.setParameter("username", username);
-        User result = (User) q.getSingleResult();
+        User result = q.getSingleResult();
         entityManager.close();
         return result;
     }

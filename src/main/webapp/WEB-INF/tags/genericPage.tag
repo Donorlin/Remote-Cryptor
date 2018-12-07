@@ -16,7 +16,6 @@
                 name: 'X-TOKEN',
                 value: xtoken
             }).appendTo('form');
-            console.log(xtoken);
         });
     </script>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/bootstrap.min.css" type="text/css"/>

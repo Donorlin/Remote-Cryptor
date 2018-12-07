@@ -6,22 +6,18 @@ import database.entity.Comment;
 import database.entity.ShareLog;
 import database.entity.User;
 
-import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
 import java.io.File;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class ShareService {
 
     private EntityManagerFactory emf;
 
     private String shareDirectory;
-
 
     public ShareService() {
         emf = EntityManagerFactorySingleton.getEMF();
@@ -111,19 +107,16 @@ public class ShareService {
         TypedQuery<ShareLog> q = entityManager.createQuery("select s from ShareLog s where s.receiver.username = :username", ShareLog.class);
         q.setParameter("username", username);
         List<ShareLog> qResultList = q.getResultList();
-        System.out.println("RLIST1 SIZE " + qResultList.size());
-
         entityManager.close();
         return qResultList;
     }
 
     public List<ShareLog> getSharedFilesBySearch(String username, String searchString) {
         EntityManager entityManager = emf.createEntityManager();
-        TypedQuery<ShareLog> q = entityManager.createQuery("select distinct s from ShareLog s join Comment c on c.shareLog.id = s.id where s.receiver.username = :username and (s.fileName like :searchString or c.comment like :searchString or c.author.username like :searchString or s.originator.username like :searchString)",ShareLog.class);
+        TypedQuery<ShareLog> q = entityManager.createQuery("select distinct s from ShareLog s join Comment c on c.shareLog.id = s.id where s.receiver.username = :username and (s.fileName like :searchString or c.comment like :searchString or c.author.username like :searchString or s.originator.username like :searchString)", ShareLog.class);
         q.setParameter("searchString", "%" + searchString + "%");
         q.setParameter("username", username);
         List<ShareLog> qResultList = q.getResultList();
-        System.out.println("RLIST2 SIZE " + qResultList.size());
         entityManager.close();
         return qResultList;
     }
@@ -132,19 +125,15 @@ public class ShareService {
         EntityManager entityManager = emf.createEntityManager();
         TypedQuery<ShareLog> q = entityManager.createQuery("select s from ShareLog s", ShareLog.class);
         List<ShareLog> qResultList = q.getResultList();
-        System.out.println("RLIST3 SIZE " + qResultList.size());
-
         entityManager.close();
         return qResultList;
     }
 
     public List<ShareLog> getAllSharedFilesBySearch(String searchString) {
         EntityManager entityManager = emf.createEntityManager();
-        TypedQuery<ShareLog> q = entityManager.createQuery("select distinct s from ShareLog s join Comment c on c.shareLog.id = s.id where s.fileName like :searchString or c.comment like :searchString or c.author.username like :searchString or s.originator.username like :searchString",ShareLog.class);
+        TypedQuery<ShareLog> q = entityManager.createQuery("select distinct s from ShareLog s join Comment c on c.shareLog.id = s.id where s.fileName like :searchString or c.comment like :searchString or c.author.username like :searchString or s.originator.username like :searchString", ShareLog.class);
         q.setParameter("searchString", "%" + searchString + "%");
         List<ShareLog> qResultList = q.getResultList();
-        System.out.println("RLIST4 SIZE " + qResultList.size());
-
         entityManager.close();
         return qResultList;
     }

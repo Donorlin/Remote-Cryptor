@@ -7,7 +7,9 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import servlet.common.ServletUtils;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -16,13 +18,18 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/share")
+@WebServlet(urlPatterns = "/share", name = "FileShareCryptorServlet")
+@MultipartConfig(location = "D:/apache-tomcat-9.0.12/uploads/tmp")
 public class FileShareCryptorServlet extends HttpServlet {
 
-//    private String SHARE_DIRECTORY = "D:/apache-tomcat-9.0.12/uploads/share";
-     private String SHARE_DIRECTORY = "/usr/local/apache-tomcat-9.0.12/uploads/share";
-
     private List<String> userList;
+    private String SHARE_DIRECTORY;
+
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        SHARE_DIRECTORY = config.getServletContext().getInitParameter("SHARE_DIRECTORY");
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -48,36 +55,18 @@ public class FileShareCryptorServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        File fileToShare = null;
-        String usernameToShareWith = null;
+        File fileToShare = (File)req.getAttribute("fileToShare");
+        String usernameToShareWith = (String)req.getAttribute("shareWith");
+        String comment = (String)req.getAttribute("comment");
         String currentUser = (String) req.getSession().getAttribute("username");
-        String comment = null;
 
-        if (ServletFileUpload.isMultipartContent(req)) {
-            try {
-                List<FileItem> multiparts = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(req);
 
-                for (FileItem item : multiparts) {
-                    if (!item.isFormField()) {
-                        if (item.getFieldName().equals("inputFile")) {
-                            String fileName = new File(item.getName()).getName();
-                            fileToShare = new File(SHARE_DIRECTORY + File.separator + fileName);
-                            item.write(fileToShare);
-                        }
-                    } else {
-                        if (("shareWith").equals(item.getFieldName())) {
-                            usernameToShareWith = item.getString();
-                        }
-                        if (("comment").equals(item.getFieldName())) {
-                            comment = item.getString();
-                        }
-                    }
-                }
-            } catch (Exception ex) {
-                System.out.println(ex);
-            }
-        }
         ShareService shareService = new ShareService(SHARE_DIRECTORY);
+        System.out.println(usernameToShareWith);
+        System.out.println(currentUser);
+        System.out.println(comment);
+        System.out.println(fileToShare.getName());
+
         boolean retVal = shareService.shareFile(currentUser, usernameToShareWith, fileToShare, comment);
         fillUserlist(req);
         if (!retVal) {

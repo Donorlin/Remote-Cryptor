@@ -2,6 +2,7 @@ package servlet;
 
 import servlet.common.ServletUtils;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -12,14 +13,20 @@ import java.io.File;
 @WebServlet("/decryptor")
 public class DecryptorDownloadServlet extends HttpServlet {
 
-    // private final String JAR_DIRECTORY = "D:/apache-tomcat-9.0.12/uploads/decryptor";
-    private String JAR_DIRECTORY = "/usr/local/apache-tomcat-9.0.12/uploads/decryptor";
-    private String JAR_FILENAME = "local_decryptor_3000.jar";
+    private String DECRYPTOR_JAR_DIRECTORY;
+    private String DECRYPTOR_JAR_FILENAME;
+
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        DECRYPTOR_JAR_DIRECTORY = config.getServletContext().getInitParameter("DECRYPTOR_JAR_DIRECTORY");
+        DECRYPTOR_JAR_FILENAME = config.getServletContext().getInitParameter("DECRYPTOR_JAR_FILENAME");
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
         try {
-            File jar = new File(JAR_DIRECTORY + File.separator + JAR_FILENAME);
+            File jar = new File(DECRYPTOR_JAR_DIRECTORY + File.separator + DECRYPTOR_JAR_FILENAME);
             ServletUtils.sendResponseFile(resp, jar);
         } catch (Exception ex) {
             System.out.println(ex);

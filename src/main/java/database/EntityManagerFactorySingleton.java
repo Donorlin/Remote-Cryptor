@@ -8,7 +8,8 @@ public class EntityManagerFactorySingleton {
     private static final EntityManagerFactory emfInstance =
             Persistence.createEntityManagerFactory("Cryptor-pu");
 
-    private EntityManagerFactorySingleton() {}
+    private EntityManagerFactorySingleton() {
+    }
 
     public static EntityManagerFactory getEMF() {
         return emfInstance;

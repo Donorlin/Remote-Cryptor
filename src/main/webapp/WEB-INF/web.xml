@@ -14,18 +14,49 @@
         <welcome-file>login</welcome-file>
     </welcome-file-list>
 
+
+    <context-param>
+        <param-name>SHARE_DIRECTORY</param-name>
+        <param-value>D:/apache-tomcat-9.0.12/uploads/share</param-value>
+        <!--<param-value>/usr/local/apache-tomcat-9.0.12/uploads/share</param-value>-->
+    </context-param>
+    <context-param>
+        <param-name>UPLOAD_DIRECTORY</param-name>
+        <param-value>D:/apache-tomcat-9.0.12/uploads</param-value>
+        <!--<param-value>/usr/local/apache-tomcat-9.0.12/upload</param-value>-->
+    </context-param>
+    <context-param>
+        <param-name>DECRYPTOR_JAR_DIRECTORY</param-name>
+        <param-value>D:/apache-tomcat-9.0.12/uploads/decryptor</param-value>
+        <!--<param-value>/usr/local/apache-tomcat-9.0.12/uploads/decryptor</param-value>-->
+    </context-param>
+    <context-param>
+        <param-name>DECRYPTOR_JAR_FILENAME</param-name>
+        <param-value>local_decryptor_3000.jar</param-value>
+    </context-param>
+
+
     <filter>
         <filter-name>LoadCsrfTokenFilter</filter-name>
         <filter-class>servlet.filter.LoadCsrfTokenFilter</filter-class>
+    </filter>
+    <filter>
+        <filter-name>FileShareCryptorFilter</filter-name>
+        <filter-class>servlet.filter.FileShareCryptorFilter</filter-class>
     </filter>
     <filter>
         <filter-name>ValidateCsrfTokenFilter</filter-name>
         <filter-class>servlet.filter.ValidateCsrfTokenFilter</filter-class>
     </filter>
 
+
     <filter-mapping>
         <filter-name>LoadCsrfTokenFilter</filter-name>
         <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>FileShareCryptorFilter</filter-name>
+        <url-pattern>/share</url-pattern>
     </filter-mapping>
     <filter-mapping>
         <filter-name>ValidateCsrfTokenFilter</filter-name>

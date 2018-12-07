@@ -4,6 +4,8 @@ import database.dao.ShareService;
 import database.entity.ShareLog;
 import servlet.common.ServletUtils;
 
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,9 +19,14 @@ import java.util.List;
 public class MyFilesServlet extends HttpServlet {
 
     private List<ShareLog> sharedFilesList;
-//    private String SHARE_DIRECTORY = "D:/apache-tomcat-9.0.12/uploads/share";
-    private String SHARE_DIRECTORY = "/usr/local/apache-tomcat-9.0.12/uploads/share";
 
+    private String SHARE_DIRECTORY;
+
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        SHARE_DIRECTORY = config.getServletContext().getInitParameter("SHARE_DIRECTORY");
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

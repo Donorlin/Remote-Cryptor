@@ -27,7 +27,8 @@ public class Comment implements Serializable {
     @ManyToOne
     private ShareLog shareLog;
 
-    public Comment(){}
+    public Comment() {
+    }
 
     public Long getId() {
         return id;

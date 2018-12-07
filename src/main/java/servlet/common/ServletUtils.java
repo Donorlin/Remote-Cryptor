@@ -1,16 +1,17 @@
 package servlet.common;
 
 import com.google.gson.Gson;
-import jdk.internal.util.xml.impl.Input;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import servlet.common.dto.ErrorOutputDTO;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 import java.io.*;
-import java.util.Arrays;
-import java.util.Optional;
+import java.util.*;
 
 public class ServletUtils {
 
@@ -85,5 +86,20 @@ public class ServletUtils {
             }
         }
         return false;
+    }
+
+    public static String getFormFieldValueFromMultiPart(HttpServletRequest req, String fieldName) {
+        try {
+            for (Part part : req.getParts()) {
+                System.out.println("PART " + part.getName());
+                if (fieldName.equals(part.getName())) {
+                    Scanner scan = new Scanner(part.getInputStream());
+                    return scan.nextLine();
+                }
+            }
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        return null;
     }
 }

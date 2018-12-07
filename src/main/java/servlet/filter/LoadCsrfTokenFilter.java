@@ -17,17 +17,16 @@ public class LoadCsrfTokenFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
+        System.out.println("LoadCsrfTokenFilter");
 
-        // Assume its HTTP
         HttpServletRequest httpReq = (HttpServletRequest) request;
 
-        // Check the user session for the salt cache, if none is present we create one
         Cache<String, Boolean> csrfPreventionSaltCache = (Cache<String, Boolean>)
                 httpReq.getSession().getAttribute("X-TOKEN-CACHE");
 
         if (csrfPreventionSaltCache == null){
             csrfPreventionSaltCache = CacheBuilder.newBuilder()
-                    .maximumSize(500)
+                    .maximumSize(5000)
                     .expireAfterWrite(20, TimeUnit.MINUTES)
                     .build();
 

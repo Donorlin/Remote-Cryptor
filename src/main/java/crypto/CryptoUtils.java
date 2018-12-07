@@ -1,7 +1,7 @@
 package crypto;
 
-import database.entity.User;
 import database.dao.UserService;
+import database.entity.User;
 
 import javax.crypto.*;
 import javax.crypto.spec.IvParameterSpec;

@@ -6,6 +6,7 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import servlet.common.ServletUtils;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,9 +18,14 @@ import java.util.List;
 
 @WebServlet("/cryptor")
 public class PublicCryptorServlet extends HttpServlet {
-    private static long serialVersionUID = 1L;
-//     private final String UPLOAD_DIRECTORY = "D:/apache-tomcat-9.0.12/uploads";
-    private String UPLOAD_DIRECTORY = "/usr/local/apache-tomcat-9.0.12/uploads";
+
+    private String UPLOAD_DIRECTORY;
+
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        UPLOAD_DIRECTORY = config.getServletContext().getInitParameter("UPLOAD_DIRECTORY");
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
