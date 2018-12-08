@@ -37,6 +37,7 @@
                                     aria-controls="collapse-<%=log.getId()%>">
                                 <%=log.getFileName()%>
                             </button>
+                            <span class="align-self-center font-weight-light"><strong><%=log.getOriginator().getUsername()%></strong> - <span class="text-muted"><%=log.getUploadDateTime().toString()%></span></span>
                             <div class="ml-auto">
                                 <form method="post" action="${pageContext.request.contextPath}/myfiles">
                                     <input type="hidden" value="<%=log.getId()%>" name="fileId"/>

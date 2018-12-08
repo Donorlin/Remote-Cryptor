@@ -37,6 +37,7 @@
                                     aria-controls="collapse-<%=log.getId()%>">
                                 <%=log.getFileName()%>
                             </button>
+                            <span class="align-self-center font-weight-light text-muted"><%=log.getUploadDateTime().toString()%></span>
                             <div class="col">
                                 <div class="float-sm-right">
                                     <div class="row">
