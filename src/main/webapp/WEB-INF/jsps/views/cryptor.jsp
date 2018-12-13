@@ -3,31 +3,40 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 
 <c:set var="bodyContent">
+    <h1 class="h3 mb-3 font-weight-normal">REMOTE CRYPTOR 3000</h1>
+    <div class="p-md-3 rounded" style="border: solid #9999;">
+    <div action="${pageContext.request.contextPath}/cryptor" method="post" enctype="multipart/form-data">
+        <div class="form-group row">
+            <label for="form-inputFile" class="col-sm-3 col-form-label">Choose file to encrypt/decrypt</label>
+            <div class="col-sm-auto">
+                <input type="file" class="form-control-file" id="form-inputFile" name="inputFile"
+                       required="required"/>
+            </div>
+        </div>
 
-    <div>
-        <form action="${pageContext.request.contextPath}/cryptor" method="post" enctype="multipart/form-data">
-            <h3>Choose file to encrypt/decrypt</h3>
-            <input type="file" name="inputFile" required="required"/>
-            <h3>Choose what you want to do with a file</h3>
-            <input type="radio" name="type" value="encrypt" checked="checked"/>
+        <div class="custom-control custom-radio custom-control-inline">
+            <input type="radio" class="custom-control-input" id="form-radio-encrypt" name="type" value="encrypt"
+                   checked="checked"/>
+            <label class="custom-control-label" for="form-radio-encrypt"> Encrypt (upload public key) </label>
+        </div>
 
-            Encrypt (upload public key)
-            <input type="radio" name="type" value="decrypt"/>
+        <div class="custom-control custom-radio custom-control-inline">
+            <input type="radio" class="custom-control-input" id="form-radio-decrypt" name="type" value="decrypt"/>
+            <label class="custom-control-label" for="form-radio-decrypt">Decrypt (upload private key)</label>
+        </div>
 
-            Decrypt (upload private key)
-
-            <h3>Upload asked key</h3>
-            <input type="file" name="key" required="required"/> </br>
-
-            </br><input type="submit" value="Upload"/>
+        <div class="form-group row">
+            <label for="form-input-key" class="col-sm-3 col-form-label">Upload asked key</label>
+            <div class="col-sm-auto">
+                <input type="file" class="form-control-file" id="form-input-key" name="key" required="required"/>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-secondary">Upload</button>
         </form>
     </div>
 </c:set>
 
 <t:genericPage>
-    <jsp:attribute name="header">
-            <h1 class="h3 mb-3 font-weight-normal">REMOTE CRYPTOR 3000</h1>
-    </jsp:attribute>
     <jsp:attribute name="footer">
         <h3>If you do not want to upload your private key, simply download our Local Decryptor 3000 and decipher your
             file locally.</h3>
