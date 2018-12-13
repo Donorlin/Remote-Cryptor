@@ -14,6 +14,10 @@
         <welcome-file>login</welcome-file>
     </welcome-file-list>
 
+    <error-page>
+        <exception-type>java.lang.Exception</exception-type>
+        <location>/WEB-INF/jsps/views/error.jsp</location>
+    </error-page>
 
     <context-param>
         <param-name>SHARE_DIRECTORY</param-name>

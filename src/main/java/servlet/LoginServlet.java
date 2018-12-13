@@ -48,7 +48,9 @@ public class LoginServlet extends HttpServlet {
             String token = JWTUtils.generateJWT(username);
             req.getSession().setAttribute("jwt", token);
             req.getSession().setAttribute("username", username);
-            resp.addCookie(new Cookie("token", token));
+            Cookie sessionCookie = new Cookie("token", token);
+            sessionCookie.setHttpOnly(true);
+            resp.addCookie(sessionCookie);
             resp.sendRedirect(req.getContextPath() + "/share");
         }
     }
